@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import './icons/index.js'
 import './styles/index.less'
+import './styles/transition.less'
 
 Vue.config.productionTip = false
 
