@@ -1,5 +1,5 @@
 <template>
-    <div class="home">
+    <div class="home" ref="home" :style="{height:height+'px'}">
         <div class="header" :style="{backgroundImage:`url(${selectBg})`}">
             <div class="header-title">
                 <span>caoML</span>
@@ -38,6 +38,7 @@
 <script>
 import ArticleList from './articleList.vue'
 import ArticleCon from './article.vue'
+import {mapActions} from 'vuex'
 export default {
   components: {
     ArticleList,
@@ -48,21 +49,37 @@ export default {
       bg: ['blue', 'green', 'pink', 'yellow'],
       bgColor: ['#427bd2', '#2cc3b0', '#E2685B', '#EFD16A'],
       selectBg: require('@/assets/img/blue.jpg'),
-      color: '#427bd2'
+      color: '#427bd2',
+      height: 0
     }
   },
   methods: {
+    ...mapActions(['changeScroll']),
     handleClick (event) {
       let value = event.target.getAttribute('value')
       value && (this.selectBg = require('../../' + 'assets/img/' + this.bg[value] + '.jpg'))
       this.color = this.bgColor[value]
+    },
+    listenScroll () {
+      let home = this.$refs['home']
+      home.addEventListener('scroll', () => {
+        this.changeScroll(home.scrollTop)
+      }, false)
+    },
+    getHeight () {
+      this.height = document.documentElement.clientHeight
     }
+  },
+  mounted () {
+    this.getHeight()
+    this.listenScroll()
   }
 }
 </script>
 
 <style lang="less" scoped>
     .home{
+        overflow:auto;
         color:white;
         .header{
             position:relative;
@@ -136,8 +153,8 @@ export default {
     .content-right{
         // overflow: hidden;
         display:inline-block;
-        text-align: center;
-        width:60%;
+        // text-align: center;
+        width:70%;
         // background-color: white;
         // height:200px;
         // border-radius: 10px;
