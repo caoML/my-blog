@@ -22,11 +22,15 @@ const createLintingRule = () => ({
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './src/main.js'
+    app: './src/main.js' //以main.js 为入口文件
   },
   output: {
-    path: config.build.assetsRoot,
+    path: config.build.assetsRoot, //将构建打包输出的app.js放到assetsRoot目录下
+    // 可以对构建输出的app.js进行二次定制化命名，比如加时间戳等
     filename: '[name].js',
+    // webpack构建输出的临时文件存放到内存中，而且是以publicPath作为相对路径。
+    // publicPath并不会影响输出目录
+    // 此外，如果指定路径下已经存在了相同文件，webpack会优先使用内存的临时文件
     publicPath: process.env.NODE_ENV === 'production'
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
@@ -83,6 +87,10 @@ module.exports = {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
+      },
+      {
+        test:/\.md$/,
+        loader:'vue-markdown-loader'
       }
     ]
   },

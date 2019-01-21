@@ -21,7 +21,7 @@ export default {
   data () {
     return {
       lists: [
-        'ALL', 'CSS', 'Javascript', 'Vue'
+        'ALL', 'CSS', 'Javascript', 'Vue', 'Javascript', 'Vue'
       ]
     }
   }
@@ -44,10 +44,10 @@ export default {
       font-size:14px;
       font-weight: bold;
       padding:13px;
-    }
-    .content-item:hover{
-      transition: all 1s;
-      transform: translateX(10px);
+      transition:all 1s;
+      &:hover{
+        transform: translateX(10px);
+      }
     }
   }
 </style>

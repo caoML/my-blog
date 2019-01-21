@@ -7,6 +7,12 @@ import store from './store'
 import './icons/index.js'
 import './styles/index.less'
 import './styles/transition.less'
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+Vue.use(mavonEditor)
+// import VueHighlightJS from 'vue-highlightjs'
+// Tell Vue.js to use vue-highlightjs
+// Vue.use(VueHighlightJS)
 
 Vue.config.productionTip = false
 

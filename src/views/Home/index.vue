@@ -4,8 +4,8 @@
             <div class="header-title">
                 <span>caoML</span>
                 <span class="header-info">
-                    <a class="header-info_me">Blog</a>
-                    <a class="header-info_me" href="https://github.com/caoML">Projects</a>
+                    <a class="header-info_blog">Blog</a>
+                    <a class="header-info_github" href="https://github.com/caoML">Projects</a>
                 </span>
             </div>
             <div class="header-eyes" @click="handleClick">
@@ -16,10 +16,10 @@
                 <svg-icon value=3 icon-class="browse" class="header-theme"></svg-icon>
             </div>
             <div class="header-content">
-                <div class="header-content_name">
+                <div class="header-content_name" :style=headerScroll>
                     <span>caoML</span>
                 </div>
-                <div class="header-content_slogan">
+                <div class="header-content_slogan" :style="{transform:`scale(${scroll})`,opacity:2-`${scroll}`}">
                     <span>welcome my blog</span>
                 </div>
             </div>
@@ -29,7 +29,8 @@
                 <article-list :colors="color"></article-list>
             </div>
             <div class="content-right">
-                <article-con :colors="color"></article-con>
+                <article-con :colors="color" v-if="showMd"></article-con>
+                <router-view class="content-md" v-else></router-view>
             </div>
         </div>
     </div>
@@ -50,7 +51,16 @@ export default {
       bgColor: ['#427bd2', '#2cc3b0', '#E2685B', '#EFD16A'],
       selectBg: require('@/assets/img/blue.jpg'),
       color: '#427bd2',
-      height: 0
+      height: 0,
+      headerScroll: null
+    }
+  },
+  computed: {
+    scroll () {
+      return (this.$store.state.app.scrollTop + 1000) / 1000
+    },
+    showMd () {
+      return this.$route.path.indexOf('.md') === -1
     }
   },
   methods: {
@@ -73,6 +83,13 @@ export default {
   mounted () {
     this.getHeight()
     this.listenScroll()
+  },
+  watch: {
+    scroll (newValue, oldValue) {
+      if (newValue < 500) {
+        this.headerScroll = {transform: `scale(${this.scroll})`, opacity: 2 - `${this.scroll}`}
+      }
+    }
   }
 }
 </script>
@@ -97,9 +114,15 @@ export default {
         padding:20px;
         .header-info{
             float:right;
-            .header-content_name:hover{
-                transition:all .7s;
-                transition: scale(1.2) ;
+            .header-info_blog:hover{
+                text-shadow: 2px 2px 10px #000000;
+                transition:all 0.5s;
+                transform: scale(1.1)
+            }
+            .header-info_github:hover{
+                text-shadow: 2px 2px 10px #000000;
+                transition:all 0.5s;
+                transform: scale(1.1)
             }
         }
     }
@@ -130,33 +153,48 @@ export default {
         left:50%;
         top:50%;
         transform: translate(-50%,-50%);
+        .header-content_name{
+            padding-bottom: 40px;
+        }
         .header-content_slogan{
             text-align: center;
             font-size: 25px;
         }
     }
     .content-left{
-        overflow: hidden;
-        display:inline-block;
-        text-align: center;
-        width:25%;
-        background-color: white;
-        border-radius: 10px;
-        transition: all 0.4s;
-        margin-right:20px;
-        vertical-align: top;
+        @media screen {
+            overflow: hidden;
+            display:inline-block;
+            text-align: center;
+            width:20%;
+            background-color: white;
+            border-radius: 10px;
+            transition: all 0.4s;
+            margin-right:20px;
+            vertical-align: top;
+            @media (max-width:768px){
+                width:30%;
+            }
+        }
     }
     .content-left:hover{
         box-shadow:0 0 15px 1px #B5B5B5;
         transform: translateY(-5px);
     }
     .content-right{
-        // overflow: hidden;
         display:inline-block;
-        // text-align: center;
         width:70%;
-        // background-color: white;
-        // height:200px;
-        // border-radius: 10px;
+        @media screen {
+            @media (max-width: 768px){
+                width:60%;
+            }
+        }
+        .content-md{
+            overflow: auto;
+            color:black;
+            padding:10px;
+            background-color: white;
+            border-radius: 10px;
+        }
     }
 </style>
