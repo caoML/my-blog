@@ -103,7 +103,7 @@ export default {
         .header{
             position:relative;
             height:500px;
-            transition: all 1s;
+            transition: all .3s;
             background-repeat:no-repeat;
             background-size: cover;
         }
@@ -136,6 +136,7 @@ export default {
         .header-theme{
             transition: all 1s;
             color:white;
+            // background-color: white;
             width:1em;
             padding:0.5em;
             border-radius:20px;
