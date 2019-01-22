@@ -94,7 +94,9 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style rel="stylesheet/less" lang="less" scoped>
+    // 在这里导入不生效 可能原因：由于存在scoped，在本vue中生效，但样式载入是md没转换完成
+    // @import '../../assets/css/md.less';
     .home{
         overflow:auto;
         color:white;
@@ -191,7 +193,7 @@ export default {
         }
         .content-md{
             overflow: auto;
-            color:black;
+            // color:black;
             padding:10px;
             background-color: white;
             border-radius: 10px;
